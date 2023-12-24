@@ -11,3 +11,9 @@ To actually be able to display anything with three.js, we need three things: sce
 ## Utils
 
 use [geogebra](https://www.geogebra.org/3d?lang=en) to visualize points
+
+## bug 1
+
+1. stretch of object at the initial loading
+
+-   git hash: `5cdefb5acc5a94325681fb31802435cb535e0cfb`
