@@ -49,10 +49,20 @@ controls.enableZoom = false;
 controls.autoRotate = true;
 controls.autoRotateSpeed = 5;
 // main loop
+const cameraUpdate = () => {
+    size.width = window.innerWidth;
+    size.height = window.innerHeight;
+    // update camera
+    camera.updateProjectionMatrix();
+    camera.aspect = size.width / size.height;
+    renderer.setSize(size.width, size.height);
+};
 function animate() {
     controls.update();
     // sphere.rotation.x += 0.01;
     // sphere.rotation.y += 0.01;
+    // camera.updateProjectionMatrix();
+    cameraUpdate();
     window.requestAnimationFrame(animate);
     renderer.render(scene, camera);
 } //render Loop
@@ -72,12 +82,7 @@ if (WebGL.isWebGLAvailable()) {
 window.addEventListener("resize", () => {
     //
     console.log(`lol`);
-    size.width = window.innerWidth;
-    size.height = window.innerHeight;
-    // update camera
-    camera.updateProjectionMatrix();
-    camera.aspect = size.width / size.height;
-    renderer.setSize(size.width, size.height);
+    cameraUpdate();
 });
 
 // GSAP
