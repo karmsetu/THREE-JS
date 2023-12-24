@@ -1,32 +1,38 @@
 import * as THREE from "three";
+import WebGL from "three/addons/capabilities/WebGL.js";
 
-// Scene
 const scene = new THREE.Scene();
+const FOV = 75; //? (in degrees)
+const camera = new THREE.PerspectiveCamera(
+    FOV,
+    window.innerWidth / window.innerHeight, //?aspect ratio
+    0.1,
+    1000
+);
 
-// Create an object (Sphere)
-const geometry = new THREE.SphereGeometry(3, 64, 64); // 3-> size/radius , 64->segment/width , 64-> height
-const material = new THREE.MeshStandardMaterial({
-    color: "#00ff83",
-});
+const renderer = new THREE.WebGLRenderer();
+const updateStyle = true; //? If you wish to keep the size of your app but render it at a lower resolution (updateStyle=false)
+renderer.setSize(window.innerWidth, window.innerHeight, updateStyle);
+document.body.appendChild(renderer.domElement);
+const geometry = new THREE.BoxGeometry(2, 1, 3); //? (Len, breadth, height)
+const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 }); // ? use hex coded colors
+const cube = new THREE.Mesh(geometry, material);
+scene.add(cube);
+// ! all the objects added to the scene will have a starting point of (0,0,0)
+camera.position.z = 5;
+function animate() {
+    cube.rotation.x += 0.01;
+    cube.rotation.y += 0.01;
+    requestAnimationFrame(animate);
+    renderer.render(scene, camera);
+} //render Loop
 
-const mesh = new THREE.Mesh(geometry, material);
-scene.add(mesh);
-
-// Camera
-const FOV = 45; //! dont do much or it will distort the object
-const aspectRatioLen = 800;
-const aspectRatioWidth = 600;
-const camera = new THREE.PerspectiveCamera(45, 800 / 600);
-// Light
-const light = new THREE.PointLight(0xffffff, 1, 100);
-light.position.set(0, 10, 10);
-scene.add(light);
-
-camera.position.z = 20; //? moves camera away from the center point
-scene.add(camera);
-
-// Renderer
-const canvas = document.querySelector(".webgl");
-const renderer = new THREE.WebGLRenderer({ canvas });
-renderer.setSize(800, 600);
-renderer.render(scene, camera);
+if (WebGL.isWebGLAvailable()) {
+    // Initiate function or other initializations here
+    console.log("this browser supports webGL");
+    animate();
+} else {
+    const warning = WebGL.getWebGLErrorMessage();
+    console.log(`this browser does not support webGL: ${warning}`);
+    document.body.appendChild(warning);
+}
