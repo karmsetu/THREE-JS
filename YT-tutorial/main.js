@@ -109,7 +109,7 @@ tl.fromTo(
 let mouseDown = false;
 let rgb = [];
 window.addEventListener("mousedown", () => (mouseDown = true));
-window.addEventListener("mouseup", () => (mouseDown = true));
+window.addEventListener("mouseup", () => (mouseDown = false));
 window.addEventListener("mousemove", (e) => {
     if (mouseDown) {
         rgb = [
