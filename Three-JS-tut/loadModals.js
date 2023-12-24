@@ -15,7 +15,9 @@ const camera = new THREE.PerspectiveCamera(
 
 camera.position.set(0, 0, 10);
 camera.lookAt(0, 0, 0);
-const objPath = "./assets/obj.glb";
+// TODO add assets to the asset file anf load them on the path below
+// ? i have used this one "https://sketchfab.com/3d-models/free-1975-porsche-911-930-turbo-8568d9d14a994b9cae59499f0dbed21e#download"
+const objPath = "./assets/car.glb";
 const scene = new THREE.Scene();
 // loading model
 loader.load(objPath, (gltf) => {
