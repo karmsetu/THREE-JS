@@ -2,6 +2,7 @@ import * as THREE from "three";
 import WebGL from "three/addons/capabilities/WebGL.js";
 import "./style.css";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
+import gsap from "gsap";
 // Scene
 const scene = new THREE.Scene();
 // camera
@@ -29,12 +30,14 @@ renderer.setPixelRatio(2);
 const geometry = new THREE.SphereGeometry(3, 64, 64); //? (Len, breadth, height)
 const material = new THREE.MeshStandardMaterial({
     color: new THREE.Color(0xff0000),
+    roughness: 0.2,
 }); // ? use THREE js color func
 const sphere = new THREE.Mesh(geometry, material);
 scene.add(sphere);
 // adding light
 const Light = new THREE.PointLight(0xffffff, 20, 100);
 Light.position.set(2, 2, 4);
+Light.intensity = 10;
 scene.add(Light);
 
 // ! all the objects added to the scene will have a starting point of (0,0,0)
@@ -75,4 +78,47 @@ window.addEventListener("resize", () => {
     camera.updateProjectionMatrix();
     camera.aspect = size.width / size.height;
     renderer.setSize(size.width, size.height);
+});
+
+// GSAP
+
+const tl = gsap.timeline({
+    defaults: {
+        duration: 1,
+    },
+});
+tl.fromTo(
+    sphere.scale,
+    {
+        z: 0,
+        x: 0,
+        y: 0,
+    },
+    {
+        z: 1,
+        x: 1,
+        y: 1,
+    }
+);
+// Animate color
+let mouseDown = false;
+let rgb = [];
+window.addEventListener("mousedown", () => (mouseDown = true));
+window.addEventListener("mouseup", () => (mouseDown = true));
+window.addEventListener("mousemove", (e) => {
+    if (mouseDown) {
+        rgb = [
+            Math.round((e.pageX / size.width) * 255),
+            Math.round((e.pageY / size.height) * 255),
+            150,
+        ];
+        // main animation
+        let newColor = new THREE.Color(`rgb(${rgb.join(",")})`);
+        // console.log(newColor);
+        gsap.to(sphere.material.color, {
+            r: newColor.r,
+            g: newColor.g,
+            b: newColor.b,
+        });
+    }
 });
