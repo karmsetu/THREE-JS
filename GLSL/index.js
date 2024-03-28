@@ -1,5 +1,6 @@
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
+import star from "./images/starAndMilkyway.jpg";
 
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(
@@ -46,6 +47,10 @@ const uniforms = {
     u_mouse: {
         type: "vec2",
         value: new THREE.Vector2(0.0, 0.0),
+    },
+    u_image: {
+        type: "sampler2D",
+        value: new THREE.TextureLoader().load(star),
     },
 };
 
