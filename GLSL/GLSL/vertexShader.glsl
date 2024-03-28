@@ -5,5 +5,5 @@ void main() {
     float newX = sin(position.x*u_time) * sin(position.y*u_time);
     vec3 newPosition = vec3(newX, position.y, position.z);
     // gl_Position = projectionMatrix * modelViewMatrix * vec4(sin(position), 1.0);
-    gl_Position = projectionMatrix * modelViewMatrix * vec4(newPosition, 1.0);
+    gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
 }

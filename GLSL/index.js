@@ -36,13 +36,32 @@ const uniforms = {
         type: "f",
         value: 0.0,
     },
+    u_resolution: {
+        type: "vec2",
+        value: new THREE.Vector2(
+            window.innerWidth,
+            window.innerHeight
+        ).multiplyScalar(window.devicePixelRatio),
+    },
+    u_mouse: {
+        type: "vec2",
+        value: new THREE.Vector2(0.0, 0.0),
+    },
 };
+
+window.addEventListener("mousemove", (e) => {
+    // console.log(e);
+    uniforms.u_mouse.value.set(
+        e.screenX / window.innerWidth,
+        1 - e.screenY / window.innerHeight
+    );
+});
 
 const geometry = new THREE.PlaneGeometry(5, 5, 30, 30);
 const material = new THREE.ShaderMaterial({
     vertexShader,
     fragmentShader,
-    wireframe: true,
+    wireframe: false,
     uniforms,
 });
 const cube = new THREE.Mesh(geometry, material);
